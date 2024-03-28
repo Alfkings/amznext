@@ -3,6 +3,7 @@ import React from "react";
 import FormattedPrice from "./FormattedPrice";
 import { useDispatch } from "react-redux";
 import { addToCart, deleteFavorite } from "@/store/nextSlice";
+import Link from "next/link";
 interface Item {
   _id: number;
   brand: string;
@@ -34,6 +35,7 @@ const FavoriteProduct = ({ item }: cartProductProps) => {
               <FormattedPrice amount={item.price} />
             </span>
           </p>
+         <Link href="/cart">
           <button
             onClick={() => {
               dispatch(
@@ -49,12 +51,12 @@ const FavoriteProduct = ({ item }: cartProductProps) => {
                   title: item.title,
                   quantity: 1,
                 })
-              ) && dispatch(deleteFavorite(item._id));
+              );
             }}
             className="w-44 h-10 font-medium bg-amazon_blue text-white rounded-md hover:bg-amazon_yellow duration-300 hover:text-black mt-2"
           >
             add to cart
-          </button>
+          </button></Link>
         </div>
         <div className="text-lg font-semibold text-amazon_blue">
           <FormattedPrice amount={item.price * item.quantity} />
