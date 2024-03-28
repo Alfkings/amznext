@@ -11,6 +11,7 @@ import { useSession, signIn, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { addUser } from "@/store/nextSlice";
 import SearchProducts from "../SearchProducts";
+import SearchBar from "../SearchBar";
 const Header = () => {
   const { data: session } = useSession();
   const [allData, setAllData] = useState([]);
@@ -71,59 +72,10 @@ const Header = () => {
           </div>
         </div>
         {/* serchbar */}
-        <div className="relative items-center justify-between flex-1 hidden h-10 md:inline-flex">
-          <input
-            onChange={handleSearch}
-            value={searchQuery}
-            className="w-full h-full rounded-md px-2 placeholder:text-sm text-base text-black border-[3px] border-transparent outline-none focus-visible:border-amazon_yellow"
-            type="text"
-            placeholder="Search products"
-          />
-          <span className="absolute right-0 flex items-center justify-center w-12 h-full text-2xl text-black bg-amazon_yellow rounded-tr-md rounded-br-md">
-            <HiOutlineSearch />
-          </span>
-          {/* ========== Searchfield ========== */}
-          {searchQuery && (
-            <div className="absolute left-0 w-full mx-auto overflow-y-scroll text-black bg-gray-200 rounded-lg cursor-pointer top-12 max-h-96">
-              {filteredProducts.length > 0 ? (
-                <>
-                  {searchQuery &&
-                    filteredProducts.map((item: StoreProduct) => (
-                      <Link
-                        key={item._id}
-                        className="w-full border-b-[1px] border-b-gray-400 flex items-center gap-4"
-                        href={{
-                          pathname: `${item._id}`,
-                          query: {
-                            _id: item._id,
-                            brand: item.brand,
-                            category: item.category,
-                            description: item.description,
-                            image: item.image,
-                            isNew: item.isNew,
-                            oldPrice: item.oldPrice,
-                            price: item.price,
-                            title: item.title,
-                          },
-                        }}
-                        onClick={() => setSearchQuery("")}
-                      >
-                        <SearchProducts item={item} />
-                      </Link>
-                    ))}
-                </>
-              ) : (
-                <div className="flex items-center justify-center py-10 rounded-lg shadow-lg bg-gray-50">
-                  <p className="text-xl font-semibold animate-bounce">
-                    Nothing is matches with your search keywords. Please try
-                    again!
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
-          {/* ========== Searchfield ========== */}
+        <div className="relative items-center justify-between flex-1 hidden h-10 lg:inline-flex">
+          <SearchBar />
         </div>
+
         {/* signin */}
         {userInfo ? (
           <div className="flex items-center px-2 border border-transparent hover:border-white cursor-pointer duration-300 h-[70%] gap-1">
@@ -185,3 +137,4 @@ const Header = () => {
 };
 
 export default Header;
+
